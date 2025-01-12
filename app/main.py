@@ -1,11 +1,14 @@
 import sys
+import os
 
+builtin_commands = ["exit", "echo", "type"]
+PATH = os.environ.get("PATH")
 
 def main():
     while True:
         #REPL: Read-Evaluate-Print Loop
         sys.stdout.write("$ ")
-        builtin_commands = ["exit", "echo", "type"]
+        sys.stdout.flush()
 
         command = input()
 
@@ -15,16 +18,34 @@ def main():
 
         if command_name == "exit":
             return 0
+        
         elif command_name == "echo":
             sys.stdout.write(" ".join(tokens[1:]))
+
         elif command_name == "type":
-            if tokens[1] in builtin_commands:
-                sys.stdout.write(f"{tokens[1]} is a shell builtin")
+            query_command = tokens[1]
+            paths = PATH.split(":")
+            command_path = ""
+
+            for path in paths:
+                if os.path.isfile(f"{path}/{command_name}"):
+                    command_path = path 
+                    #We can not put a break here as it may be defined elsewhere too
+
+            if query_command in builtin_commands:
+                sys.stdout.write(f"{command_name} is a shell builtin")
+
+            elif command_path:
+                sys.stdout.write(f"{command_name} is {command_path}")
+            
             else:
-                sys.stdout.write(f"{tokens[1]}: not found")
+                sys.stdout.write(f"{command_name}: not found")
+
         else:
             sys.stdout.write(f"{command_name}: command not found")
+
         sys.stdout.write('\n')
+        sys.stdout.flush()
 
 if __name__ == "__main__":
     main()

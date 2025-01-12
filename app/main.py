@@ -10,10 +10,14 @@ def main():
 
         tokens = command.split()
         
-        if tokens[0]=="exit":
-            return 0
+        command_name = tokens[0]
 
-        print(f"{tokens[0]}: command not found")
+        if command_name == "exit":
+            return 0
+        if command_name == "echo":
+            sys.stdout.write(" ".tokens[1:])
+
+        print(f"{command_name}: command not found")
 
 
 if __name__ == "__main__":

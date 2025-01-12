@@ -28,18 +28,18 @@ def main():
             command_path = ""
 
             for path in paths:
-                if os.path.isfile(f"{path}/{command_name}"):
+                if os.path.isfile(f"{path}/{query_command}"):
                     command_path = path 
                     #We can not put a break here as it may be defined elsewhere too
 
             if query_command in builtin_commands:
-                sys.stdout.write(f"{command_name} is a shell builtin")
+                sys.stdout.write(f"{query_command} is a shell builtin")
 
             elif command_path:
-                sys.stdout.write(f"{command_name} is {command_path}")
+                sys.stdout.write(f"{query_command} is {command_path}")
             
             else:
-                sys.stdout.write(f"{command_name}: not found")
+                sys.stdout.write(f"{query_command}: not found")
 
         else:
             sys.stdout.write(f"{command_name}: command not found")

@@ -15,7 +15,7 @@ def main():
         if command_name == "exit":
             return 0
         if command_name == "echo":
-            sys.stdout.write(" ".tokens[1:])
+            sys.stdout.write(" ".join(tokens[1:]))
 
         print(f"{command_name}: command not found")
 

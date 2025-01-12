@@ -15,9 +15,9 @@ def main():
 
         if command_name == "exit":
             return 0
-        if command_name == "echo":
+        elif command_name == "echo":
             sys.stdout.write(" ".join(tokens[1:]))
-        if command_name == "type":
+        elif command_name == "type":
             if tokens[1] in builtin_commands:
                 sys.stdout.write(f"{tokens[1]} is a shell builtin")
             else:

@@ -6,7 +6,7 @@ def main():
 
     inp = input()
 
-    tokens = inp().split()
+    tokens = inp.split()
 
     valid_commands = []
 

@@ -16,8 +16,8 @@ def main():
             return 0
         if command_name == "echo":
             sys.stdout.write(" ".join(tokens[1:]))
-
-        print(f"{command_name}: command not found")
+        else:
+            print(f"{command_name}: command not found")
 
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ def main():
         if command_name == "echo":
             sys.stdout.write(" ".join(tokens[1:]))
         if command_name == "type" and tokens[1] in builtin_commands:
-            sys.stdout.write(f"{command_name} is a shell builtin")
+            sys.stdout.write(f"{tokens[1]} is a shell builtin")
         else:
             sys.stdout.write(f"{command_name}: command not found")
         sys.stdout.write('\n')

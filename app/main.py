@@ -29,7 +29,7 @@ def main():
 
             for path in paths:
                 if os.path.isfile(f"{path}/{query_command}"):
-                    command_path = path 
+                    command_path = f"{path}/{query_command}" 
                     #We can not put a break here as it may be defined elsewhere too
 
             if query_command in builtin_commands:

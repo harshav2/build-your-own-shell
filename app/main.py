@@ -21,8 +21,9 @@ def handle_cd(tokens):
 
     elif tokens[1].startswith('.'):
         if len(tokens[1])>=2 and tokens[1][1]=='/':
-            tokens[1] = tokens[1][2:]
-        folders = tokens[1].split('/')
+            folders = tokens[1][2:].split('/')
+        else:
+            folders = tokens[1].split('/')
 
         for index in range(len(folders)):
             if folders[index]=='..':
@@ -31,7 +32,9 @@ def handle_cd(tokens):
                 if os.path.isdir(f"{os.getcwd()}/{'/'.join(folders[index:])}"):
                     os.chdir(f"{os.getcwd()}/{'/'.join(folders[index:])}")
                 else:
+                    os.chdir(current_working_folder)
                     sys.stdout.write(f"cd: {tokens[1]}: No such file or directory\n")
+                return
 
     else:
         path_folder = tokens[1]

@@ -15,19 +15,19 @@ def find_executable(query_command):
     return ""
 
 def handle_echo(tokens):
-    sys.stdout.write(" ".join(tokens[1:]))
+    sys.stdout.write(f"{" ".join(tokens[1:])}\n")
 
 def handle_type(tokens):
     command_path = find_executable(tokens[1])
 
     if tokens[1] in builtin_commands:
-        sys.stdout.write(f"{tokens[1]} is a shell builtin")
+        sys.stdout.write(f"{tokens[1]} is a shell builtin\n")
 
     elif command_path:
-        sys.stdout.write(f"{tokens[1]} is {command_path}")
+        sys.stdout.write(f"{tokens[1]} is {command_path}\n")
     
     else:
-        sys.stdout.write(f"{tokens[1]}: not found")
+        sys.stdout.write(f"{tokens[1]}: not found\n")
 
 def main():
     while True:
@@ -56,9 +56,8 @@ def main():
             if executable:
                 subprocess.run(tokens)
             else:
-                sys.stdout.write(f"{command_name}: command not found")
+                sys.stdout.write(f"{command_name}: command not found\n")
 
-        sys.stdout.write('\n')
-
+        sys.stdout.flush()
 if __name__ == "__main__":
     main()

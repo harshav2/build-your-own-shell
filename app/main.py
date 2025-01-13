@@ -6,7 +6,6 @@ builtin_commands = ["exit", "echo", "type"]
 PATH = os.environ.get("PATH")
 
 def find_executable(query_command):
-    command_path = ""
     paths = PATH.split(":")
 
     for path in paths:
@@ -56,7 +55,7 @@ def main():
             sys.stdout.write(f"Output: {executable}")
 
             if executable:
-                subprocess.run([executable, *tokens[1:]])
+                subprocess.run(tokens)
             else:
                 sys.stdout.write(f"{command_name}: command not found")
 

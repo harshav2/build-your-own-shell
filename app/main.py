@@ -1,8 +1,37 @@
 import sys
 import os
+import subprocess
 
 builtin_commands = ["exit", "echo", "type"]
 PATH = os.environ.get("PATH")
+
+def find_executable(query_command):
+    command_path = ""
+    paths = PATH.split(":")
+
+    for path in paths:
+        if os.path.isfile(f"{path}/{query_command}") and os.access(f"{path}/{query_command}", os.X_OK):
+            return f"{path}/{query_command}"
+    return ""
+
+def handle_exit(tokens):
+    if tokens[1]==0:
+        return
+
+def handle_echo(tokens):
+    sys.stdout.write(" ".join(tokens[1:]))
+
+def handle_type(tokens):
+    command_path = find_executable(tokens[1])
+
+    if tokens[1] in builtin_commands:
+        sys.stdout.write(f"{tokens[1]} is a shell builtin")
+
+    elif command_path:
+        sys.stdout.write(f"{tokens[1]} is {command_path}")
+    
+    else:
+        sys.stdout.write(f"{tokens[1]}: not found")
 
 def main():
     while True:
@@ -17,37 +46,19 @@ def main():
         command_name = tokens[0]
 
         if command_name == "exit":
-            return 0
+            handle_exit(tokens)
         
         elif command_name == "echo":
-            sys.stdout.write(" ".join(tokens[1:]))
+            handle_echo(tokens)
 
         elif command_name == "type":
-            query_command = tokens[1]
-            paths = PATH.split(":")
-            command_path = ""
-
-            for path in paths:
-                if os.path.isfile(f"{path}/{query_command}"):
-                    command_path = f"{path}/{query_command}" 
-                    #We can not put a break here as it may be defined elsewhere too
-
-            if query_command in builtin_commands:
-                sys.stdout.write(f"{query_command} is a shell builtin")
-
-            elif command_path:
-                sys.stdout.write(f"{query_command} is {command_path}")
-            
-            else:
-                sys.stdout.write(f"{query_command}: not found")
+            handle_type(tokens)
                 
         else:
-            paths = PATH.split()
-            command_path = ""
+            executable = find_executable(tokens[1])
 
-            if os.path.isfile(command_name):
-                os.system(command)
-
+            if executable:
+                subprocess.run([executable, *tokens[1:]])
             else:
                 sys.stdout.write(f"{command_name}: command not found")
 

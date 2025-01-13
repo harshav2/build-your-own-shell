@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess
 
-builtin_commands = ["exit", "echo", "type"]
+builtin_commands = ["exit", "echo", "type", "pwd"]
 PATH = os.environ.get("PATH")
 
 def find_executable(query_command):
@@ -16,6 +16,9 @@ def find_executable(query_command):
 
 def handle_echo(tokens):
     sys.stdout.write(f"{" ".join(tokens[1:])}\n")
+
+def handle_pwd():
+    sys.stdout.write(os.getcwd())
 
 def handle_type(tokens):
     command_path = find_executable(tokens[1])
@@ -49,6 +52,9 @@ def main():
 
         elif command_name == "type":
             handle_type(tokens)
+
+        elif command_name == "pwd":
+            handle_pwd()
                 
         else:
             executable = find_executable(tokens[0])

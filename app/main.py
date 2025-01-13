@@ -40,14 +40,13 @@ def main():
             
             else:
                 sys.stdout.write(f"{query_command}: not found")
-
-        elif command_name not in builtin_commands:
+                
+        else:
             paths = PATH.split()
             command_path = ""
 
-            for path in paths:
-                if os.path.isfile(f"{path}/{command_name}"):
-                    os.system(f"{path}/{command}")
+            if os.path.isfile(command_name):
+                os.system(command)
 
             else:
                 sys.stdout.write(f"{command_name}: command not found")

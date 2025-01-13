@@ -19,7 +19,7 @@ def handle_cd(tokens):
     if tokens[1]=='~':
         os.chdir(os.environ.get("HOME"))
 
-    if tokens[1].startswith('.'):
+    elif tokens[1].startswith('.'):
         if len(tokens[1])>=2 and tokens[1][1]=='/':
             tokens[1] = tokens[1][2:]
         folders = tokens[1].split('/')

@@ -52,7 +52,6 @@ def main():
                 
         else:
             executable = find_executable(tokens[0])
-            sys.stdout.write(f"Output: {executable}")
 
             if executable:
                 subprocess.run(tokens)

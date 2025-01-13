@@ -18,7 +18,7 @@ def handle_echo(tokens):
     sys.stdout.write(f"{" ".join(tokens[1:])}\n")
 
 def handle_pwd():
-    sys.stdout.write(os.getcwd())
+    sys.stdout.write(f"{os.getcwd()}\ns")
 
 def handle_type(tokens):
     command_path = find_executable(tokens[1])

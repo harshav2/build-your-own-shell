@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess
 
-builtin_commands = ["exit", "echo", "type", "pwd"]
+builtin_commands = ["exit", "echo", "type", "pwd", "cd"]
 PATH = os.environ.get("PATH")
 
 def find_executable(query_command):
@@ -11,11 +11,20 @@ def find_executable(query_command):
     for path in paths:
         if os.path.isfile(f"{path}/{query_command}") and os.access(f"{path}/{query_command}", os.X_OK):
             return f"{path}/{query_command}"
-        
     return ""
 
+def handle_cd(tokens):
+    current_working_folder = os.getcwd( )
+    path_folder = tokens[1]
+
+    if os.path.isdir(path_folder):
+        os.chdir(path_folder)
+    else:
+        os.chdir(current_working_folder)
+        sys.stdout.write(f"cd: {tokens[1]}: No such file or directory\n")
+
 def handle_echo(tokens):
-    sys.stdout.write(f"{" ".join(tokens[1:])}\n")
+    sys.stdout.write(f'{" ".join(tokens[1:])}\n')
 
 def handle_pwd():
     sys.stdout.write(f"{os.getcwd()}\n")
@@ -45,7 +54,7 @@ def main():
         command_name = tokens[0]
 
         if command_name == "exit":
-            return tokens[1]
+            break
         
         elif command_name == "echo":
             handle_echo(tokens)
@@ -55,6 +64,9 @@ def main():
 
         elif command_name == "pwd":
             handle_pwd()
+
+        elif command_name == "cd":
+            handle_cd(tokens)
                 
         else:
             executable = find_executable(tokens[0])

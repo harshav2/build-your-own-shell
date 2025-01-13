@@ -16,6 +16,9 @@ def find_executable(query_command):
 def handle_cd(tokens):
     current_working_folder = os.getcwd()
 
+    if tokens[1]=='~':
+        os.chdir(os.environ.get("HOME"))
+
     if tokens[1].startswith('.'):
         if len(tokens[1])>=2 and tokens[1][1]=='/':
             tokens[1] = tokens[1][2:]

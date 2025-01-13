@@ -14,14 +14,30 @@ def find_executable(query_command):
     return ""
 
 def handle_cd(tokens):
-    current_working_folder = os.getcwd( )
-    path_folder = tokens[1]
+    current_working_folder = os.getcwd()
 
-    if os.path.isdir(path_folder):
-        os.chdir(path_folder)
+    if tokens[1].startswith('.'):
+        if len(tokens[1])>=2 and tokens[1][1]=='/':
+            tokens[1] = tokens[1][2:]
+        folders = tokens[1].split('/')
+
+        for index in range(len(folders)):
+            if folders[index]=='..':
+                os.chdir(os.pardir)
+            else:
+                if os.path.isdir(f"{os.getcwd()}/{'/'.join(folders[index:])}"):
+                    os.chdir(f"{os.getcwd()}/{'/'.join(folders[index:])}")
+                else:
+                    sys.stdout.write(f"cd: {tokens[1]}: No such file or directory\n")
+
     else:
-        os.chdir(current_working_folder)
-        sys.stdout.write(f"cd: {tokens[1]}: No such file or directory\n")
+        path_folder = tokens[1]
+
+        if os.path.isdir(path_folder):
+            os.chdir(path_folder)
+        else:
+            os.chdir(current_working_folder)
+            sys.stdout.write(f"cd: {tokens[1]}: No such file or directory\n")
 
 def handle_echo(tokens):
     sys.stdout.write(f'{" ".join(tokens[1:])}\n')

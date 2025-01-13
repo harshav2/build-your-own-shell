@@ -58,7 +58,7 @@ def main():
             executable = find_executable(tokens[1])
 
             if executable:
-                subprocess.run([executable, *tokens[1:]])
+                subprocess.run([command_name, *tokens[1:]])
             else:
                 sys.stdout.write(f"{command_name}: command not found")
 

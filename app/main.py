@@ -62,12 +62,13 @@ def handle_echo(command):
     else:            
         sys.stdout.write(f"{' '.join(tokens[1:])}\n")
 
-def handle_cat(tokens):
-    # for filename in tokens:
-    #     with open(filename) as file:
-    #         sys.stdout.write(f"{file.read()}\n")
-    for i in os.walk(os.getcwd()):
-        print(i)
+def handle_cat(command):
+    tokens  = command.split('\'')
+
+    for filename in tokens[1:]:
+        if not filename.strip() and os.path.isfile(filename):
+            with open(filename) as file:
+                sys.stdout.write(f"{file.read()}\n")
 
 def handle_pwd():
     sys.stdout.write(f"{os.getcwd()}\n")
@@ -110,6 +111,9 @@ def main():
 
         elif command_name == "cd":
             handle_cd(tokens)
+
+        elif command_name == "cat":
+            handle_cat(command)
                 
         else:
             executable = find_executable(tokens[0])

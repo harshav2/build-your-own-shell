@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess
 
-builtin_commands = ["exit", "echo", "type", "pwd", "cd", "cat"]
+builtin_commands = ["exit", "echo", "type", "pwd", "cd"]
 PATH = os.environ.get("PATH")
 
 def find_executable(query_command):
@@ -58,14 +58,14 @@ def handle_echo(command):
     else:            
         sys.stdout.write(f"{' '.join(tokens[1:])}\n")
 
-def handle_cat(command):
-    files = handle_single_ticks(command)
+# def handle_cat(command):
+#     files = handle_single_ticks(command)
 
-    for filename in files:
-        if filename.strip():
-            with open(filename) as file:
-                content = file.read()
-                sys.stdout.write(f"{content}")
+#     for filename in files:
+#         if filename.strip():
+#             with open(filename) as file:
+#                 content = file.read()
+#                 sys.stdout.write(f"{content}")
 
 
 def handle_pwd():
@@ -110,8 +110,8 @@ def main():
         elif command_name == "cd":
             handle_cd(tokens)
 
-        elif command_name == "cat":
-            handle_cat(command)
+        # elif command_name == "cat":
+        #     handle_cat(command)
                 
         else:
             executable = find_executable(tokens[0])

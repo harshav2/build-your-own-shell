@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess
 
-builtin_commands = ["exit", "echo", "type", "pwd", "cd"]
+builtin_commands = ["exit", "echo", "type", "pwd", "cd", "cat"]
 PATH = os.environ.get("PATH")
 
 def find_executable(query_command):
@@ -45,8 +45,25 @@ def handle_cd(tokens):
             os.chdir(current_working_folder)
             sys.stdout.write(f"cd: {tokens[1]}: No such file or directory\n")
 
-def handle_echo(tokens):
-    sys.stdout.write(f'{" ".join(tokens[1:])}\n')
+def handle_single_ticks(command):
+    start = command.find('\'')
+    for index in range(start+1, len(command)):
+        if command[index]=='\'':
+            return command[start+1:index]
+
+def handle_echo(command):
+    tokens = command.split()
+
+    if tokens[1].startswith('\''):
+        sys.stdout.write(f"{handle_single_ticks(command)}\n")
+
+    else:            
+        sys.stdout.write(f"{' '.join(tokens[1:])}\n")
+
+def handle_cat(tokens):
+    for filename in tokens:
+        with open(filename) as file:
+            sys.stdout.write(f"{file.read()}\n")
 
 def handle_pwd():
     sys.stdout.write(f"{os.getcwd()}\n")
@@ -79,7 +96,7 @@ def main():
             break
         
         elif command_name == "echo":
-            handle_echo(tokens)
+            handle_echo(command)
 
         elif command_name == "type":
             handle_type(tokens)

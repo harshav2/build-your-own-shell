@@ -120,7 +120,7 @@ def main():
 
             if executable:
                 output = subprocess.run(arguments, capture_output=True, text=True).stdout
-                sys.stdout(output)
+                sys.stdout.write(output)
             else:
                 sys.stdout.write(f"{command_name}: command not found\n")
 

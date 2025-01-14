@@ -51,7 +51,7 @@ def handle_single_ticks(command):
     return command[start:].split('\'')
         
 def handle_echo(command):
-    tokens = command.split()
+    tokens = shlex.split(command, posix=True)
 
     if tokens[1].startswith('\''):
         sys.stdout.write(f"{''.join(handle_single_ticks(command))}\n")

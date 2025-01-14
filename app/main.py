@@ -65,7 +65,7 @@ def handle_cat(command):
         if filename.strip():
             with open(filename) as file:
                 content = file.read()
-                sys.stdout.write(f"{content}\n")
+                sys.stdout.write(f"{content}")
 
 
 def handle_pwd():

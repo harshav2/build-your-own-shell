@@ -47,10 +47,12 @@ def handle_cd(tokens):
 
 def handle_single_ticks(command):
     start = command.find('\'')
-    for index in range(start+1, len(command)):
-        if command[index]=='\'':
-            return command[start+1:index]
-
+    result = ""
+    for index in range(start, len(command)):
+        if command[index]!='\'':
+            result += command[index]
+    return result
+        
 def handle_echo(command):
     tokens = command.split()
 
@@ -86,7 +88,7 @@ def main():
         sys.stdout.write("$ ")
         sys.stdout.flush()
 
-        command = input()
+        command = input().strip()
 
         tokens = command.split()
         

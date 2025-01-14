@@ -1,6 +1,7 @@
 import sys
 import os
 import subprocess
+import shlex
 
 builtin_commands = ["exit", "echo", "type", "pwd", "cd"]
 PATH = os.environ.get("PATH")
@@ -115,9 +116,11 @@ def main():
                 
         else:
             executable = find_executable(tokens[0])
+            arguments = shlex.split(command)
 
             if executable:
-                subprocess.run(tokens)
+                output = subprocess.run(arguments, capture_output=True, text=True).stdout
+                sys.stdout(output)
             else:
                 sys.stdout.write(f"{command_name}: command not found\n")
 

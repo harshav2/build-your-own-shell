@@ -63,9 +63,11 @@ def handle_echo(command):
         sys.stdout.write(f"{' '.join(tokens[1:])}\n")
 
 def handle_cat(tokens):
-    for filename in tokens:
-        with open(filename) as file:
-            sys.stdout.write(f"{file.read()}\n")
+    # for filename in tokens:
+    #     with open(filename) as file:
+    #         sys.stdout.write(f"{file.read()}\n")
+    for i in os.walk(os.getcwd()):
+        print(i)
 
 def handle_pwd():
     sys.stdout.write(f"{os.getcwd()}\n")

@@ -116,7 +116,7 @@ def main():
                 
         else:
             executable = find_executable(tokens[0])
-            arguments = shlex.split(command)
+            arguments = shlex.split(command, posix=True)
 
             if executable:
                 output = subprocess.run(arguments, capture_output=True, text=True).stdout

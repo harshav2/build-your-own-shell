@@ -46,29 +46,27 @@ def handle_cd(tokens):
             sys.stdout.write(f"cd: {tokens[1]}: No such file or directory\n")
 
 def handle_single_ticks(command):
-    start = command.find('\'')
-    result = ""
-    for index in range(start, len(command)):
-        if command[index]!='\'':
-            result += command[index]
-    return result
+    start = command.find('\'')+1
+    return command[start:].split('\'')
         
 def handle_echo(command):
     tokens = command.split()
 
     if tokens[1].startswith('\''):
-        sys.stdout.write(f"{handle_single_ticks(command)}\n")
+        sys.stdout.write(f"{''.join(handle_single_ticks(command))}\n")
 
     else:            
         sys.stdout.write(f"{' '.join(tokens[1:])}\n")
 
 def handle_cat(command):
-    tokens  = command.split('\'')
+    files = handle_single_ticks(command)
 
-    for filename in tokens[1:]:
-        if not filename.strip() and os.path.isfile(filename):
+    for filename in files:
+        if filename.strip():
             with open(filename) as file:
-                sys.stdout.write(f"{file.read()}\n")
+                content = file.read()
+                sys.stdout.write(f"{content}\n")
+
 
 def handle_pwd():
     sys.stdout.write(f"{os.getcwd()}\n")
